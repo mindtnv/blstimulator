@@ -8,6 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MassTransit" Version="8.0.9"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.9"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="6.0.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
@@ -17,6 +19,10 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
         <PackageReference Include="Telegram.Bot" Version="18.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BLStimulator.Contracts\BLStimulator.Contracts.csproj"/>
     </ItemGroup>
 
 </Project>
