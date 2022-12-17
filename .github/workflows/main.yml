@@ -6,8 +6,12 @@ on:
   workflow_dispatch:
 
 env:
-  APP_TODOIST_TOKEN: ${{ secrets.TODOIST_TOKEN }}
-  APP_AMQP_URL: ${{ secrets.APP_AMQP_URL }}
+  APP_RABBITMQ__HOST: ${{ secrets.APP_RABBITMQ__HOST }}
+  APP_RABBITMQ__PASSWORD: ${{ secrets.APP_RABBITMQ__PASSWORD }}
+  APP_RABBITMQ__USER: ${{ secrets.APP_RABBITMQ__USER }}
+  APP_RABBITMQ__VHOST: ${{ secrets.APP_RABBITMQ__VHOST }}
+  APP_TELEGRAMBOT__TOKEN: ${{ secrets.APP_TELEGRAMBOT__TOKEN }}
+  APP_TELEGRAMBOT__URL: ${{ secrets.APP_TELEGRAMBOT__URL }}
 
 jobs:
   push-notify:
@@ -23,6 +27,7 @@ jobs:
             START BUILD
             *${{ github.repository }}*
             *${{ github.event.commits[0].message }}*
+  
   build-push:
     runs-on: ubuntu-latest
     steps:
