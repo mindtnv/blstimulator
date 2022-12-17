@@ -21,6 +21,7 @@ services:
       - APP_RABBITMQ__USER=${APP_RABBITMQ__USER?Variable not set}
       - APP_RABBITMQ__PASSWORD=${APP_RABBITMQ__PASSWORD?Variable not set}
       - APP_RABBITMQ__VHOST=${APP_RABBITMQ__VHOST?Variable not set}
+      
     deploy:
       restart_policy:
         condition: on-failure
