@@ -36,8 +36,7 @@ builder.Services.AddDbContext<TelegramAppContext>(b =>
 });
 builder.Services.AddHostedService<TelegramWebhookService>();
 builder.Services.AddHostedService<MigrationService>();
-builder.Services.Configure<StimulationProvider.StimulationProviderOptions>(
-    builder.Configuration.GetSection(nameof(StimulationProvider)));
+builder.Services.Configure<StimulationProviderOptions>(builder.Configuration.GetSection(nameof(StimulationProvider)));
 builder.Services.Configure<TelegramBotOptions>(builder.Configuration.GetSection(nameof(TelegramBot)));
 
 var app = builder.Build();
