@@ -5,6 +5,10 @@ on:
 
   workflow_dispatch:
 
+env:
+  APP_TODOIST_TOKEN: ${{ secrets.TODOIST_TOKEN }}
+  APP_AMQP_URL: ${{ secrets.APP_AMQP_URL }}
+
 jobs:
   push-notify:
     runs-on: ubuntu-latest

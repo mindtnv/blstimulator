@@ -14,7 +14,13 @@ services:
       - blstimulator:/data
     networks:
       - traefik-public
-      - 
+    environment:
+      - APP_TELEGRAMBOT__TOKEN=${APP_TELEGRAMBOT_TOKEN?Variable not set}
+      - APP_TELEGRAMBOT__URL=${APP_TELEGRAMBOT_URL?Variable not set}
+      - APP_RABBITMQ__HOST=${APP_RABBITMQ__HOST?Variable not set}
+      - APP_RABBITMQ__USER=${APP_RABBITMQ__USER?Variable not set}
+      - APP_RABBITMQ__PASSWORD=${APP_RABBITMQ__PASSWORD?Variable not set}
+      - APP_RABBITMQ__VHOST=${APP_RABBITMQ__VHOST?Variable not set}
     deploy:
       restart_policy:
         condition: on-failure

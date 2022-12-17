@@ -4,12 +4,12 @@
 
 ### Telegram
 
-`TelegramBot_Token` - Telegram bot token
-`TelegramBot_Url` - Telegram bot webhook url
+`APP_TELEGRAMBOT__TOKEN` - Telegram bot token
+`APP_TELEGRAMBOT__URL` - Telegram bot webhook url
 
 ### RabbtiMQ
 
-`RabbitMQ__Host` - RabbitMQ host
-`RabbitMQ__User` - RabbitMQ user
-`RabbitMQ__Password` - RabbitMQ password
-`RabbitMQ_VHost` - RabbitMQ vhost
+`APP_RABBITMQ__HOST` - RabbitMQ host
+`APP_RABBITMQ__USER` - RabbitMQ user
+`APP_RABBITMQ__PASSWORD` - RabbitMQ password
+`APP_RABBITMQ__VHOST` - RabbitMQ vhost
