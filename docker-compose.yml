@@ -10,7 +10,6 @@ volumes:
 
 services:
   blstimulator:
-    user: "1000"
     image: registry.dev.gbms.site/blstimulator
     volumes:
       - blstimulator:/data
