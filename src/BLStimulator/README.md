@@ -1,3 +1,3 @@
 # BLStimulator
 
-Integrated app for Todoist for BlackLock project
+Stimulate to complete tasks. Works with BLTodoist.
