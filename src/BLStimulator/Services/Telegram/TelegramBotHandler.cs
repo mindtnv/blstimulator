@@ -1,11 +1,11 @@
 ﻿using BLStimulator.Infrastructure;
 using BLStimulator.Models;
+using GBMSTelegramBotFramework.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using Telegram.Bot.Types;
 
 namespace BLStimulator.Services.Telegram;
 
-public class TelegramBotHandler
+public class TelegramBotHandler : UpdateHandlerBase
 {
     private readonly TelegramAppContext _telegramAppContext;
 
@@ -14,20 +14,20 @@ public class TelegramBotHandler
         _telegramAppContext = telegramAppContext;
     }
 
-    public async Task HandleUpdateAsync(Update update, CancellationToken cancellationToken)
+    public override async Task OnMessageAsync(UpdateContext context)
     {
+        var update = context.Update;
         var chatId = update.Message.Chat.Id;
         var containsChatId =
-            await _telegramAppContext.ChatIdEntries.AnyAsync(x => x.ChatId == chatId,
-                cancellationToken);
+            await _telegramAppContext.ChatIdEntries.AnyAsync(x => x.ChatId == chatId);
         if (!containsChatId)
         {
             await _telegramAppContext.ChatIdEntries.AddAsync(new TelegramChatIdEntry
             {
                 ChatId = chatId,
                 UserId = update.Message.From.Id,
-            }, cancellationToken);
-            await _telegramAppContext.SaveChangesAsync(cancellationToken);
+            });
+            await _telegramAppContext.SaveChangesAsync();
         }
     }
 }

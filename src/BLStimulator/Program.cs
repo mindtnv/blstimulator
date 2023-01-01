@@ -2,11 +2,14 @@ using BLStimulator.Consumers;
 using BLStimulator.Infrastructure;
 using BLStimulator.Services;
 using BLStimulator.Services.Telegram;
+using GBMSTelegramBotFramework.Abstractions.Extensions;
+using GBMSTelegramBotFramework.AspNetCore;
+using GBMSTelegramBotFramework.Extensions;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddEnvironmentVariables(prefix: "APP_");
+builder.Configuration.AddEnvironmentVariables("APP_");
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -26,19 +29,29 @@ builder.Services.AddMassTransit(b =>
         c.ConfigureEndpoints(ctx);
     });
 });
+builder.Services.UseTelegramWebHook(o =>
+    o.Url = builder.Configuration[ConfigurationPath.Combine("TelegramBot", "Url")]);
+builder.Services.AddTelegramBot(bot =>
+{
+    bot.ConfigureOptions(o =>
+    {
+        o.WithName("stimulator-bot");
+        o.WithToken(builder.Configuration[ConfigurationPath.Combine("TelegramBot", "Token")] ??
+                    throw new ArgumentNullException("TelegramBot:Token"));
+    });
+    bot.UseHandler<TelegramBotHandler>();
+});
 builder.Services.AddScoped<IStimulationProvider, StimulationProvider>();
 builder.Services.AddScoped<ITelegramUserIdResolver, TelegramUserIdResolver>();
 builder.Services.AddScoped<IStimulatorService, TelegramStimulatorService>();
+
 builder.Services.AddScoped<TelegramBotHandler>();
-builder.Services.AddSingleton<TelegramBot>();
 builder.Services.AddDbContext<TelegramAppContext>(b =>
 {
     b.UseSqlite(builder.Configuration.GetConnectionString(nameof(TelegramAppContext)));
 });
-builder.Services.AddHostedService<TelegramWebhookService>();
 builder.Services.AddHostedService<MigrationService>();
 builder.Services.Configure<StimulationProviderOptions>(builder.Configuration.GetSection(nameof(StimulationProvider)));
-builder.Services.Configure<TelegramBotOptions>(builder.Configuration.GetSection(nameof(TelegramBot)));
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -47,14 +60,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseRouting();
-app.UseEndpoints(c =>
-{
-    c.MapControllers();
-    c.MapControllerRoute("telegram_bot", app.Services.GetService<TelegramBot>().Route, new
-    {
-        Controller = "TelegramBot",
-        Action = "Post",
-    });
-});
+app.UseTelegramWebhook();
 app.Run();
