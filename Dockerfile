@@ -7,6 +7,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["./src/BLStimulator/BLStimulator.csproj", "./BLStimulator/"]
 COPY ["./src/BLStimulator.Contracts/BLStimulator.Contracts.csproj", "./BLStimulator.Contracts/"]
+RUN dotnet nuget add source https://baget.dev.gbms.site/v3/index.json -n baget
 RUN dotnet restore "./BLStimulator/BLStimulator.csproj"
 RUN dotnet restore "./BLStimulator.Contracts/BLStimulator.Contracts.csproj"
 COPY ["./src/BLStimulator/", "./BLStimulator/"]
